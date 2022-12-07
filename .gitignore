@@ -17,3 +17,6 @@ Plugins/*/Intermediate/
 /Plugins/ELYPECS
 *_BuiltData.uasset
 /Config
+/Plugins/Developer/
+/.idea
+

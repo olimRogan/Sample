@@ -6,26 +6,33 @@
 #include "GameFramework/Actor.h"
 #include "Sample_Actor.generated.h"
 
+USTRUCT(Atomic, BlueprintType)
+struct FInteractProperty
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FTransform Transform;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UCurveFloat> Curve;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UMaterial> Material;
+};
+
 UCLASS()
 class UE5CPPSAMPLE_API ASample_Actor : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	ASample_Actor();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleAnywhere,Category = "Product")
-	int32 CategoryIt;
-
-	virtual void OnConstruction(const FTransform& Transform) override;
-
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Product")
+	TMap<FString, FInteractProperty> InteractList;
 };

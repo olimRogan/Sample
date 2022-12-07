@@ -21,4 +21,5 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	static void FocusComponent(UMeshComponent* Mesh);
+	
 };

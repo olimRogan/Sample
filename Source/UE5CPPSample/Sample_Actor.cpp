@@ -9,6 +9,7 @@ ASample_Actor::ASample_Actor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+// Add section
 #if WITH_EDITOR
 #define LOCTEXT_NAMESPACE "Custom Detail"
 	static const FName PropertyEditor("PropertyEditor");
@@ -19,7 +20,6 @@ ASample_Actor::ASample_Actor()
 	Section->AddCategory("Product");
 #undef LOCTEXT_NAMESPACE
 #endif
-
 }
 
 // Called when the game starts or when spawned
@@ -32,17 +32,5 @@ void ASample_Actor::BeginPlay()
 void ASample_Actor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-}
-
-void ASample_Actor::OnConstruction(const FTransform& Transform)
-{
-	Super::OnConstruction(Transform);
-
-	TMap<int32, int32> a;
-	a.KeySort([](int32 aa, int32 bb)
-		{
-			return aa > bb;
-		});
 }
 
