@@ -4,28 +4,28 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Sample_Actor.generated.h"
+#include "InteractActor.generated.h"
 
 USTRUCT(Atomic, BlueprintType)
-struct FInteractProperty
+struct FLightProperty
 {
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FTransform Transform;
+	float Intensity;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UCurveFloat> Curve;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UMaterial> Material;
+	bool bReverse;
 };
 
 UCLASS()
-class UE5CPPSAMPLE_API ASample_Actor : public AActor
+class UE5CPPSAMPLE_API AInteractActor : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	ASample_Actor();
+	AInteractActor();
 
 protected:
 	virtual void BeginPlay() override;
@@ -33,6 +33,13 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Product")
-	TMap<FString, FInteractProperty> InteractList;
+	UPROPERTY(BlueprintReadOnly,VisibleAnywhere)
+	TObjectPtr<USceneComponent> RootScene;
+
+	UPROPERTY(BlueprintReadOnly,VisibleAnywhere)
+	TObjectPtr<UStaticMeshComponent> MeshComponent;
+	
+private:
+	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, meta = (AllowPrivateAccess ="true"))
+	TObjectPtr<class UMovableInteractComponent> MovableComponent;
 };
