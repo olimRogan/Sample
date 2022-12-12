@@ -7,6 +7,18 @@
 #include "InteractInterface.generated.h"
 
 // This class does not need to be modified.
+
+// Actor Type
+UENUM(BlueprintType)
+enum class EActorType : uint8
+{
+	EAS_Actor UMETA(DisplayName = "Actor"),
+	EAS_Marker UMETA(DisplayName = "Marker"),
+	EAS_Manger UMETA(DisplayName = "Manger"),
+	
+	EAS_DefaultMAX UMETA(DisplayName = "MAX")
+};
+
 UINTERFACE(MinimalAPI)
 class UInteractInterface : public UInterface
 {
@@ -21,8 +33,10 @@ class UE5CPPSAMPLE_API IInteractInterface
 	GENERATED_BODY()
 
 public:
-	virtual void Interact(FString string) = 0;
-
+	// CPP
+	virtual void Interact(FString string, EActorType type) = 0;
+	
+	// BP
 	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
-	void InteractBP(const FString& str);
+	void InteractBP(const FString& str,EActorType type);
 };

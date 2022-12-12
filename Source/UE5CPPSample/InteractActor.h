@@ -6,19 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "InteractActor.generated.h"
 
-USTRUCT(Atomic, BlueprintType)
-struct FLightProperty
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float Intensity;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UCurveFloat> Curve;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bReverse;
-};
-
 UCLASS()
 class UE5CPPSAMPLE_API AInteractActor : public AActor
 {
@@ -33,13 +20,24 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
+	// Root Scene
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere)
 	TObjectPtr<USceneComponent> RootScene;
 
+	// Billboard 
+	UPROPERTY(BlueprintReadOnly,VisibleAnywhere)
+	TObjectPtr<UBillboardComponent> BillboardComponent;
+
+	// Mesh Component
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere)
 	TObjectPtr<UStaticMeshComponent> MeshComponent;
 	
 private:
+	// Interact Component - Movable
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, meta = (AllowPrivateAccess ="true"))
 	TObjectPtr<class UMovableInteractComponent> MovableComponent;
+
+	// Interact Component - Light
+	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, meta = (AllowPrivateAccess ="true"))
+	TObjectPtr<class ULightInteractComponent> LightInteractComponent;
 };

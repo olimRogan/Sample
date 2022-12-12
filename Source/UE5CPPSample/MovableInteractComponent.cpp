@@ -1,24 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "MovableInteractComponent.h"
-
 #include "InteractActor.h"
 #include "Kismet/KismetMathLibrary.h"
 
-// Sets default values for this component's properties
 UMovableInteractComponent::UMovableInteractComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-
-// Called when the game starts
 void UMovableInteractComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }
-// Called every frame
+
 void UMovableInteractComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -38,13 +33,12 @@ void UMovableInteractComponent::GetProperty(const FString& name)
 {
 	if(bCanInteraction)
 	{
-		UE_LOG(LogTemp,Warning,TEXT("GetProeprty Num  - %d"),List.Num());
-		for (TTuple<FString, FMovableProperty>& Result : List)
+		// Key : FString, Value : FMovableProperty
+		for (TTuple<FString, FMovableProperty>& Item : MovableList)
 		{
-			UE_LOG(LogTemp,Warning,TEXT("ResultKey - %s"),*Result.Key);
-			if(name.Equals(Result.Key))
+			if(name.Equals(Item.Key))
 			{
-				CurrentProperty = Result.Value;
+				CurrentProperty = Item.Value;
 				PlayTimeline(CurrentProperty.Curve);
 			}
 		}
@@ -58,22 +52,35 @@ void UMovableInteractComponent::Interaction(TOptional<FMovableProperty> property
 	const FTransform toTransform = property.GetValue().ToTransform;
 	const FTransform fromTransform = property.GetValue().FromTransform;
 
-	const FTransform a = UKismetMathLibrary::TLerp(toTransform,fromTransform,TimelineAlpha); 
-	const FTransform b = UKismetMathLibrary::TLerp(fromTransform,toTransform,TimelineAlpha); 
+	const FTransform a = UKismetMathLibrary::TLerp(fromTransform,toTransform,TimelineAlpha); 
+	const FTransform b = UKismetMathLibrary::TLerp(toTransform,fromTransform,TimelineAlpha); 
 	
-	const FTransform newTransform = UKismetMathLibrary::SelectTransform(a,b,property.GetValue().bReverse);
+	const FTransform newTransform = UKismetMathLibrary::SelectTransform(a,b,!property.GetValue().bReverse);
 	
 	mesh->SetRelativeTransform(newTransform);
 }
 
-void UMovableInteractComponent::Interact(FString string)
+void UMovableInteractComponent::Interact(FString string, EActorType type)
 {
-	UE_LOG(LogTemp,Warning,TEXT("%s"),*string);
+	// TODO CPP
 }
 
-void UMovableInteractComponent::InteractBP_Implementation(const FString& str)
+void UMovableInteractComponent::InteractBP_Implementation(const FString& str, EActorType type)
 {
-	GetProperty(str);
+	//UE_LOG(LogTemp,Warning,TEXT("new Interface - %s -> %s"),*this->GetOwner()->GetName(),*str);
+	switch (type)
+	{
+	case EActorType::EAS_Actor:
+		GetProperty(str);
+		break;
+	case EActorType::EAS_Marker:
+		break;
+	case EActorType::EAS_Manger:
+		break;
+	case EActorType::EAS_DefaultMAX:
+		break;
+	default: ;
+	}
 }
 
 void UMovableInteractComponent::PlayTimeline(UCurveFloat* curve)
@@ -97,7 +104,6 @@ void UMovableInteractComponent::PlayTimeline(UCurveFloat* curve)
 void UMovableInteractComponent::TimelineProgress(float Value)
 {
 	TimelineAlpha = Value;
-	UE_LOG(LogTemp,Warning,TEXT("Alpha - %f"),TimelineAlpha);
 }
 
 void UMovableInteractComponent::TimelineFinish()

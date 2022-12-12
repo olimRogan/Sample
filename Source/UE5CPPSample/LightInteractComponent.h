@@ -6,56 +6,55 @@
 #include "InteractInterface.h"
 #include "Components/ActorComponent.h"
 #include "Components/TimelineComponent.h"
-#include "MovableInteractComponent.generated.h"
+#include "LightInteractComponent.generated.h"
 
-// Property 구조체
 USTRUCT(Atomic, BlueprintType)
-struct FMovableProperty
+struct FLightProperty
 {
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FTransform FromTransform;
+	float FromIntensity;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FTransform ToTransform;
+	float ToIntensity;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FLinearColor FromColor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FLinearColor ToColor;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UCurveFloat> Curve;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UMaterial> Material;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bReverse;
 };
 
 // 현재 상태 Enum
 UENUM(BlueprintType)
-enum class EMovableState : uint8
+enum class ELightState : uint8
 {
-	ES_Ready UMETA(DisplayName = "Ready"),
-	ES_Interacting UMETA(DisplayName = "Interacting"),
+	ELS_Off UMETA(DisplayName = "Off"),
+	ELS_On UMETA(DisplayName = "On"),
 
 	ES_DefaultMAX UMETA(DisplayName = "MAX")
 };
 
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class UE5CPPSAMPLE_API UMovableInteractComponent : public UActorComponent, public IInteractInterface
+
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+class UE5CPPSAMPLE_API ULightInteractComponent : public UActorComponent, public IInteractInterface
 {
 	GENERATED_BODY()
 
 protected:
-	// 생성자
-	UMovableInteractComponent();
-
-	// BeginPlay
-	virtual void BeginPlay() override;
-
-	// Tick
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	ULightInteractComponent();
 	
-	// Interact List 에서 property 얻어오기
-	void GetProperty(const FString& name);
+	virtual void BeginPlay() override;
+	
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	// List 에서 property 얻어오기
+	void GetProperty(const FString& name);
+	
 	// 상호작용
-	void Interaction(TOptional<FMovableProperty> property, TObjectPtr<UStaticMeshComponent> mesh);
+	void Interaction(TOptional<FLightProperty> property, TObjectPtr<ULightComponent> light);
 
 	// Interface 함수
 	virtual void Interact(FString string,EActorType type) override;
@@ -64,21 +63,20 @@ protected:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void InteractBP(const FString& str,EActorType type);
 	virtual void InteractBP_Implementation(const FString& str, EActorType type) override;
-	
+
 public:
-	// 현재 상태
-	EMovableState State = EMovableState::ES_Ready;
+	ELightState State = ELightState::ELS_Off;
 
 	// Interact List
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Product")
-	TMap<FString, FMovableProperty> MovableList;
+	TMap<FString, FLightProperty> LightList;
 
 	// 현재 Property
-	FMovableProperty CurrentProperty;
+	FLightProperty CurrentProperty;
 	
-	// Interaction 이 가능한지
+	// 
 	UPROPERTY(BlueprintReadOnly)
-	bool bCanInteraction = true;
+	bool bCanTurnOn = true;
 
 	// Interact Actor
 	UPROPERTY()
