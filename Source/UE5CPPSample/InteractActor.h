@@ -35,7 +35,7 @@ public:
 private:
 	// Interact Component - Movable
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, meta = (AllowPrivateAccess ="true"))
-	TObjectPtr<class UMovableInteractComponent> MovableComponent;
+	TObjectPtr<class UMovableInteractComponent> MovableInteractComponent;
 
 	// Interact Component - Light
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, meta = (AllowPrivateAccess ="true"))

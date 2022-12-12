@@ -13,7 +13,7 @@ AInteractActor::AInteractActor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	MovableComponent = CreateDefaultSubobject<UMovableInteractComponent>(TEXT("MovableComponent"));
+	MovableInteractComponent = CreateDefaultSubobject<UMovableInteractComponent>(TEXT("MovableComponent"));
 	LightInteractComponent = CreateDefaultSubobject<ULightInteractComponent>(TEXT("LightComponent"));
 
 	RootScene = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
@@ -21,7 +21,7 @@ AInteractActor::AInteractActor()
 
 	BillboardComponent =CreateDefaultSubobject<UBillboardComponent>(TEXT("BillboardComponent"));
 	BillboardComponent->SetupAttachment(GetRootComponent());
-	BillboardComponent->SetRelativeScale3D(FVector(0.1f));
+	BillboardComponent->SetRelativeScale3D(FVector(0.2f));
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
 	MeshComponent->SetupAttachment(GetRootComponent());
@@ -44,9 +44,9 @@ void AInteractActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(MovableComponent && LightInteractComponent)
+	if(MovableInteractComponent && LightInteractComponent)
 	{
-		MovableComponent->InteractActor = this;
+		MovableInteractComponent->InteractActor = this;
 		LightInteractComponent->InteractActor = this;
 	}
 }
