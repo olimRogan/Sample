@@ -29,7 +29,7 @@ public:
 	TObjectPtr<UBillboardComponent> BillboardComponent;
 
 	// Mesh Component
-	UPROPERTY(BlueprintReadOnly,VisibleAnywhere)
+	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Product")
 	TObjectPtr<UStaticMeshComponent> MeshComponent;
 	
 private:

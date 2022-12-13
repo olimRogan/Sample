@@ -39,13 +39,13 @@ void UMovableInteractComponent::GetProperty(const FString& name)
 			if(name.Equals(Item.Key))
 			{
 				CurrentProperty = Item.Value;
-				PlayTimeline(CurrentProperty.Curve);
+				PlayTimeline(CurrentProperty.GetValue().Curve);
 			}
 		}
 	}
 }
 
-void UMovableInteractComponent::Interaction(TOptional<FMovableProperty> property,TObjectPtr<UStaticMeshComponent> mesh)
+void UMovableInteractComponent::Interaction(TOptional<FMovableProperty>& property,TObjectPtr<UStaticMeshComponent> mesh)
 {
 	if(!property.IsSet() || mesh == nullptr) return;
 

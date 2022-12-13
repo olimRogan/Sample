@@ -56,13 +56,13 @@ void ULightInteractComponent::GetProperty(const FString& name)
 			if(name.Equals(Item.Key))
 			{
 				CurrentProperty = Item.Value;
-				PlayTimeline(CurrentProperty.Curve);
+				PlayTimeline(CurrentProperty.GetValue().Curve);
 			}
 		}
 	}
 }
 
-void ULightInteractComponent::Interaction(TOptional<FLightProperty> property, TObjectPtr<ULightComponent> light)
+void ULightInteractComponent::Interaction(TOptional<FLightProperty>& property, TObjectPtr<ULightComponent> light)
 {
 	if(light)
 	{
@@ -87,9 +87,9 @@ void ULightInteractComponent::Interaction(TOptional<FLightProperty> property, TO
 			const FLinearColor lerpColor = UKismetMathLibrary::LinearColorLerp(fromColor,toColor,TimelineAlpha);
 			const FLinearColor reverseLerpColor = UKismetMathLibrary::LinearColorLerp(toColor,fromColor,TimelineAlpha);
 
-			const FLinearColor NewLightColor = UKismetMathLibrary::SelectColor(lerpColor,reverseLerpColor,!property.GetValue().bReverse);
+			const FLinearColor newLightColor = UKismetMathLibrary::SelectColor(lerpColor,reverseLerpColor,!property.GetValue().bReverse);
 
-			light->SetLightColor(NewLightColor);
+			light->SetLightColor(newLightColor);
 		}
 	}
 }

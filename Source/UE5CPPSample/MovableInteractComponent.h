@@ -55,7 +55,7 @@ protected:
 	void GetProperty(const FString& name);
 
 	// 상호작용
-	void Interaction(TOptional<FMovableProperty> property, TObjectPtr<UStaticMeshComponent> mesh);
+	void Interaction(TOptional<FMovableProperty>& property, TObjectPtr<UStaticMeshComponent> mesh);
 
 	// Interface 함수
 	virtual void Interact(FString string,EActorType type) override;
@@ -74,7 +74,7 @@ public:
 	TMap<FString, FMovableProperty> MovableList;
 
 	// 현재 Property
-	FMovableProperty CurrentProperty;
+	TOptional<FMovableProperty> CurrentProperty;
 	
 	// Interaction 이 가능한지
 	UPROPERTY(BlueprintReadOnly)

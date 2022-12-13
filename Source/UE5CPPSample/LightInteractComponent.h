@@ -54,7 +54,7 @@ protected:
 	void GetProperty(const FString& name);
 	
 	// 상호작용
-	void Interaction(TOptional<FLightProperty> property, TObjectPtr<ULightComponent> light);
+	void Interaction(TOptional<FLightProperty>& property, TObjectPtr<ULightComponent> light);
 
 	// Interface 함수
 	virtual void Interact(FString string,EActorType type) override;
@@ -72,7 +72,7 @@ public:
 	TMap<FString, FLightProperty> LightList;
 
 	// 현재 Property
-	FLightProperty CurrentProperty;
+	TOptional<FLightProperty> CurrentProperty;
 	
 	// 
 	UPROPERTY(BlueprintReadOnly)
