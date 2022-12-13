@@ -45,10 +45,14 @@ void UMobilePanelWidget::Init()
 
 USingleButtonWidget* UMobilePanelWidget::CreateThemeWidget(FName themeName)
 {
-	USingleButtonWidget* newWidget = CreateWidget<USingleButtonWidget>(this, ChildClass.Get());
-	newWidget->BindedText = themeName;
-	
-	return newWidget;
+	if(ChildClass.Get())
+	{
+		USingleButtonWidget* newWidget = CreateWidget<USingleButtonWidget>(this, ChildClass.Get());
+		newWidget->BindedText = themeName;
+		return newWidget;
+	}
+	GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Orange,TEXT("Child Class nullptr"));
+	return nullptr;
 }
 
 void UMobilePanelWidget::ChangeThemeData(int32 currentIndex)
@@ -81,6 +85,7 @@ void UMobilePanelWidget::ChangeThemeData(int32 currentIndex)
 	FName themeName = {};
 	for (int32 index = 0; index < ThemeCount; index++ )
 	{
+		if(ThemeWidgets.IsEmpty()) break;
 		
 		themeWidget = ThemeWidgets[index];
 
