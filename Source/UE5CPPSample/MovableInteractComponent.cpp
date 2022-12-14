@@ -20,7 +20,7 @@ void UMovableInteractComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 	InteractTimeline.TickTimeline(DeltaTime);
 
-	if(State == EMovableState::ES_Interacting)
+	if(State == EMovableState::ES_Moving)
 	{
 		if(InteractActor)
 		{
@@ -31,7 +31,7 @@ void UMovableInteractComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 void UMovableInteractComponent::GetProperty(const FString& name)
 {
-	if(bCanInteraction)
+	if(State == EMovableState::ES_Wait)
 	{
 		// Key : FString, Value : FMovableProperty
 		for (TTuple<FString, FMovableProperty>& Item : MovableList)
@@ -96,8 +96,8 @@ void UMovableInteractComponent::PlayTimeline(UCurveFloat* curve)
 		InteractTimeline.SetTimelineFinishedFunc(FinishEvent);
 		
 		InteractTimeline.PlayFromStart();
-		bCanInteraction = false;
-		State = EMovableState::ES_Interacting;
+		State = EMovableState::ES_Moving;
+		bIsMove = !bIsMove;
 	}
 }
 
@@ -108,7 +108,6 @@ void UMovableInteractComponent::TimelineProgress(float Value)
 
 void UMovableInteractComponent::TimelineFinish()
 {
-	bCanInteraction = true;
-	State = EMovableState::ES_Ready;
+	State = EMovableState::ES_Wait;
 }
 

@@ -43,12 +43,11 @@ void ULightInteractComponent::TickComponent(float DeltaTime, ELevelTick TickType
 			}
 		}
 	}
-
 }
 
 void ULightInteractComponent::GetProperty(const FString& name)
 {
-	if(bCanTurnOn)
+	if(State == ELightState::ELS_Off)
 	{
 		// Key : FString, Value : FMovableProperty
 		for (TTuple<FString, FLightProperty>& Item : LightList)
@@ -128,8 +127,8 @@ void ULightInteractComponent::PlayTimeline(UCurveFloat* curve)
 		InteractTimeline.SetTimelineFinishedFunc(FinishEvent);
 		
 		InteractTimeline.PlayFromStart();
-		bCanTurnOn = false;
 		State = ELightState::ELS_On;
+		bIsTurnOn = !bIsTurnOn;
 	}
 }
 
@@ -140,7 +139,6 @@ void ULightInteractComponent::TimelineProgress(float Value)
 
 void ULightInteractComponent::TimelineFinish()
 {
-	bCanTurnOn = true;
 	State = ELightState::ELS_Off;
 }
 

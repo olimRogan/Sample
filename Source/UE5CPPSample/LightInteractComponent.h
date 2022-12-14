@@ -65,6 +65,7 @@ protected:
 	virtual void InteractBP_Implementation(const FString& str, EActorType type) override;
 
 public:
+	UPROPERTY(BlueprintReadOnly)
 	ELightState State = ELightState::ELS_Off;
 
 	// Interact List
@@ -73,14 +74,14 @@ public:
 
 	// 현재 Property
 	TOptional<FLightProperty> CurrentProperty;
-	
-	// 
-	UPROPERTY(BlueprintReadOnly)
-	bool bCanTurnOn = true;
 
 	// Interact Actor
 	UPROPERTY()
 	TObjectPtr<class AInteractActor> InteractActor;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsTurnOn;
+
 #pragma region Timeline
 	// 타임라인
 	FTimeline InteractTimeline;

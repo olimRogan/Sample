@@ -40,4 +40,7 @@ private:
 	// Interact Component - Light
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, meta = (AllowPrivateAccess ="true"))
 	TObjectPtr<class ULightInteractComponent> LightInteractComponent;
+
+	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category = "Product", meta =(AllowPrivateAccess = "true"))
+	bool bEnableClick;
 };

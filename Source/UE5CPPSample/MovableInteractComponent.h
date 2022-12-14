@@ -30,8 +30,8 @@ public:
 UENUM(BlueprintType)
 enum class EMovableState : uint8
 {
-	ES_Ready UMETA(DisplayName = "Ready"),
-	ES_Interacting UMETA(DisplayName = "Interacting"),
+	ES_Wait UMETA(DisplayName = "Wait"),
+	ES_Moving UMETA(DisplayName = "Moving"),
 
 	ES_DefaultMAX UMETA(DisplayName = "MAX")
 };
@@ -67,7 +67,11 @@ protected:
 	
 public:
 	// 현재 상태
-	EMovableState State = EMovableState::ES_Ready;
+	UPROPERTY(BlueprintReadOnly)
+	EMovableState State = EMovableState::ES_Wait;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsMove;
 
 	// Interact List
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Product")
@@ -76,10 +80,6 @@ public:
 	// 현재 Property
 	TOptional<FMovableProperty> CurrentProperty;
 	
-	// Interaction 이 가능한지
-	UPROPERTY(BlueprintReadOnly)
-	bool bCanInteraction = true;
-
 	// Interact Actor
 	UPROPERTY()
 	TObjectPtr<class AInteractActor> InteractActor;
