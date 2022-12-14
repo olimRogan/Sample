@@ -11,6 +11,14 @@
  * 
  */
 
+UENUM(BlueprintType)
+enum EDisplayType : uint8
+{
+	Home = 0,
+	ViewpointList,
+	ThemeList,
+};
+
 
 UCLASS()
 class UE5CPPSAMPLE_API UMobilePanelWidget : public UUserWidget
@@ -23,13 +31,19 @@ protected:
 	UFUNCTION(BlueprintCallable)
 		void Init();
 
-	UFUNCTION(BlueprintCallable)
+	/*UFUNCTION(BlueprintCallable)
 		USingleButtonWidget* CreateThemeWidget(FName themeName = "NONE");
+	UFUNCTION(BlueprintCallable)
+		void CreateThemeWidgets(int32 count);*/
+
 	UFUNCTION(BlueprintCallable)
 		void ChangeThemeData(int32 currentIndex);
 
-	UFUNCTION(BlueprintCallable)
-		void CreateThemeWidgets(int32 count);
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		USingleButtonWidget* CreateThemeWidget(FName themeName = "NONE");
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void CreateThemeWidgets(int32 count); 
 
 	UFUNCTION(BlueprintCallable)
 		void VisibleAllTheme(ESlateVisibility eVisibility);
@@ -44,10 +58,10 @@ private:
 public:
 	const int32 InitThemeCounts = 10;
 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
-		TSoftClassPtr<USingleButtonWidget> ChildClass;
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
+		EDisplayType ECurrentDisplayType;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
 		FName CurrentLocationName;
 
