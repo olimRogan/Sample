@@ -12,7 +12,7 @@
  */
 
 UENUM(BlueprintType)
-enum EDisplayType : uint8
+enum class EDisplayType : uint8
 {
 	Home = 0,
 	ViewpointList,

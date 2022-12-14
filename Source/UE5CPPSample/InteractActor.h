@@ -36,11 +36,12 @@ private:
 	// Interact Component - Movable
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, meta = (AllowPrivateAccess ="true"))
 	TObjectPtr<class UMovableInteractComponent> MovableInteractComponent;
-
+	
 	// Interact Component - Light
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, meta = (AllowPrivateAccess ="true"))
 	TObjectPtr<class ULightInteractComponent> LightInteractComponent;
 
+	// 마우스 클릭 반응 체크
 	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category = "Product", meta =(AllowPrivateAccess = "true"))
 	bool bEnableClick;
 };
