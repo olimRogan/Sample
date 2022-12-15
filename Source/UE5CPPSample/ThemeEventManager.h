@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "InteractActor.h"
+//#include "Plugins/OlimPlugin/Public/interactActor."
 #include "ThemeEventManager.generated.h"
 
 USTRUCT(Atomic, BlueprintType)

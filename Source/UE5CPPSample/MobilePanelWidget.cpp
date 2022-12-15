@@ -15,17 +15,17 @@ void UMobilePanelWidget::NativeConstruct()
 
 }
 
-void UMobilePanelWidget::Init()
+void UMobilePanelWidget::Init_Implementation()
 {
-	UWorld* world = GetWorld();	
+	UWorld* world = GetWorld();
 
 	for (const auto& themeEventManager : TActorRange<AThemeEventManager>(world))
 	{
 		ThemeEventManager = themeEventManager;
 
-		if ( IsValid(ThemeEventManager))
+		if (IsValid(ThemeEventManager))
 		{
-			break; 
+			break;
 		}
 	}
 
@@ -38,10 +38,35 @@ void UMobilePanelWidget::Init()
 			break;
 		}
 	}
-
-	CreateThemeWidgets(InitThemeCounts);
-	ChangeThemeData(CurrentLocationIndex);
 }
+
+//void UMobilePanelWidget::Init()
+//{
+//	UWorld* world = GetWorld();	
+//
+//	for (const auto& themeEventManager : TActorRange<AThemeEventManager>(world))
+//	{
+//		ThemeEventManager = themeEventManager;
+//
+//		if ( IsValid(ThemeEventManager))
+//		{
+//			break; 
+//		}
+//	}
+//
+//	for (const auto& viewPointManager : TActorRange<AViewPointManager>(world))
+//	{
+//		ViewPointManager = viewPointManager;
+//
+//		if (IsValid(ViewPointManager))
+//		{
+//			break;
+//		}
+//	}
+//
+//	CreateThemeWidgets(InitThemeCounts);
+//	ChangeThemeData(CurrentLocationIndex);
+//}
 
 
 

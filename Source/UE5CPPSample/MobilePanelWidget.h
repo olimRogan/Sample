@@ -28,9 +28,10 @@ public:
 protected:
 	virtual void NativeConstruct() override;
 
-	UFUNCTION(BlueprintCallable)
-		void Init();
-
+	UFUNCTION(BlueprintNativeEvent,BlueprintCallable)
+	void Init();
+	virtual void Init_Implementation();
+//old
 	/*UFUNCTION(BlueprintCallable)
 		USingleButtonWidget* CreateThemeWidget(FName themeName = "NONE");
 	UFUNCTION(BlueprintCallable)
@@ -53,6 +54,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 		void ExecuteThemeEvent(FName themeEventName);
+
 private:
 
 public:
