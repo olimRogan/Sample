@@ -101,9 +101,9 @@ void UMovableInteractComponent::PlayTimeline(UCurveFloat* curve)
 	}
 }
 
-void UMovableInteractComponent::TimelineProgress(float Value)
+void UMovableInteractComponent::TimelineProgress(float value)
 {
-	TimelineAlpha = Value;
+	TimelineAlpha = value;
 }
 
 void UMovableInteractComponent::TimelineFinish()

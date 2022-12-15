@@ -24,11 +24,11 @@
 			]
 		},
 		{
-			"Name": "OlimPlugin",
+			"Name": "WebBrowserWidget",
 			"Enabled": true
 		},
 		{
-			"Name": "WebBrowserWidget",
+			"Name": "OlimPlugin",
 			"Enabled": true
 		}
 	]
