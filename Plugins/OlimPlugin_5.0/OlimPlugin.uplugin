@@ -29,5 +29,7 @@
 			"Name": "WebBrowserWidget",
 			"Enabled": true
 		}
-	]
+	],
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false
 }

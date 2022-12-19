@@ -2,7 +2,6 @@
 
 #include "OlimMovableInteractComponent.h"
 #include "OlimInteractActor.h"
-#include "Selection.h"
 #include "Kismet/KismetMathLibrary.h"
 
 UOlimMovableInteractComponent::UOlimMovableInteractComponent()
