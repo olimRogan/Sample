@@ -3,7 +3,7 @@
 
 #include "MobilePanelWidget.h"
 #include "EngineUtils.h"
-#include "InteractInterface.h"
+#include "OlimInteractInterface.h"
 
 #include "ThemeEventManager.h"
 #include "ViewPointManager.h"
@@ -90,9 +90,9 @@ void UMobilePanelWidget::ExecuteThemeEvent(FName themeEventName)
 			AActor* actor = dataThemeEvent.InteractableMarker;
 			if ( IsValid(actor))
 			{
-				if (actor->GetClass()->ImplementsInterface(UInteractInterface::StaticClass()))
+				if (actor->GetClass()->ImplementsInterface(UOlimInteractInterface::StaticClass()))
 				{
-					IInteractInterface::Execute_InteractBP(actor, dataThemeEvent.ExecutableEventName.ToString(), EActorType::EAS_Marker);
+					IOlimInteractInterface::Execute_InteractBP(actor, dataThemeEvent.ExecutableEventName.ToString(), EOlimActorType::EAS_ActorBucket);
 				}
 			}
 		}

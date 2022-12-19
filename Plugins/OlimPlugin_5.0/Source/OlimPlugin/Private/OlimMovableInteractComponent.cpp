@@ -1,29 +1,23 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "OlimMovableInteractComponent.h"
-
 #include "OlimInteractActor.h"
+#include "Selection.h"
 #include "Kismet/KismetMathLibrary.h"
 
-// Sets default values for this component's properties
 UOlimMovableInteractComponent::UOlimMovableInteractComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
+
 	PrimaryComponentTick.bCanEverTick = true;
 
 }
 
-
-// Called when the game starts
 void UOlimMovableInteractComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
 void UOlimMovableInteractComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -52,6 +46,12 @@ void UOlimMovableInteractComponent::GetProperty(const FString& name)
 				PlayTimeline(CurrentProperty.GetValue().Curve);
 			}
 		}
+		if(MovableList.IsEmpty())
+		{
+			GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Orange,
+					FString::Printf(TEXT("%s - Movable List 가 비어 있습니다."),*this->GetOwner()->GetName()));
+			DrawDebugSphere(GetWorld(),GetOwner()->GetActorLocation(),15.f,6,FColor::Orange,false,5.f,0,1.f);
+		}
 	}
 }
 
@@ -73,7 +73,7 @@ void UOlimMovableInteractComponent::Interaction(TOptional<FOlimMovableProperty>&
 
 void UOlimMovableInteractComponent::Interact(FString str, EOlimActorType type)
 {
-	
+	// TODO CPP
 }
 
 void UOlimMovableInteractComponent::InteractBP_Implementation(const FString& str, EOlimActorType type)
@@ -81,11 +81,16 @@ void UOlimMovableInteractComponent::InteractBP_Implementation(const FString& str
 	switch (type)
 	{
 	case EOlimActorType::EAS_Actor:
+		if(ComponentState == EOlimMovableComponentState::EOMCS_Wait)
+		{
+			if(str.Equals("Open")) {MovementState = EOlimMovementState::EOMS_Open;}
+			else if(str.Equals("Close")) {MovementState = EOlimMovementState::EOMS_Close;}	
+		}
 		GetProperty(str);
 		break;
-	case EOlimActorType::EAS_Marker:
+	case EOlimActorType::EAS_ActorBucket:
 		break;
-	case EOlimActorType::EAS_Manger:
+	case EOlimActorType::EAS_EventHandler:
 		break;
 	case EOlimActorType::EAS_DefaultMAX:
 		break;

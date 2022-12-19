@@ -12,18 +12,13 @@ class OLIMPLUGIN_API AOlimInteractActor : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AOlimInteractActor();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
+public:
 	// Root Scene
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Component")
 	TObjectPtr<USceneComponent> RootScene = nullptr;

@@ -94,6 +94,9 @@ public:
 	UPROPERTY()
 	TObjectPtr<class AOlimInteractActor> InteractActor;
 
+	UPROPERTY()
+	TObjectPtr<ULightComponent> LightComponent;
+
 #pragma region Timeline
 	// 타임라인
 	FTimeline InteractTimeline;

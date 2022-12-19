@@ -1,20 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "OlimLightInteractComponent.h"
-
 #include "OlimInteractActor.h"
 #include "Components/LightComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
-// Sets default values for this component's properties
 UOlimLightInteractComponent::UOlimLightInteractComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
 
@@ -22,8 +15,6 @@ UOlimLightInteractComponent::UOlimLightInteractComponent()
 void UOlimLightInteractComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
 	
 }
 
@@ -39,7 +30,6 @@ void UOlimLightInteractComponent::TickComponent(float DeltaTime, ELevelTick Tick
 	{
 		if(InteractActor)
 		{
-			ULightComponent* LightComponent = Cast<ULightComponent>(InteractActor.Get()->GetComponentByClass(ULightComponent::StaticClass()));
 			if(LightComponent)
 			{
 				Interaction(CurrentProperty,LightComponent);	
@@ -50,17 +40,32 @@ void UOlimLightInteractComponent::TickComponent(float DeltaTime, ELevelTick Tick
 
 void UOlimLightInteractComponent::GetProperty(const FString& name)
 {
-	if(ComponentState == EOlimLightComponentState::EOLCS_Off)
+	LightComponent = Cast<ULightComponent>(InteractActor.Get()->GetComponentByClass(ULightComponent::StaticClass()));
+	if(LightComponent)
 	{
-		// Key : FString, Value : FMovableProperty
-		for (TTuple<FString, FOlimLightProperty>& Item : LightList)
+		if(ComponentState == EOlimLightComponentState::EOLCS_Off)
 		{
-			if(name.Equals(Item.Key))
+			// Key : FString, Value : FMovableProperty
+			for (TTuple<FString, FOlimLightProperty>& Item : LightList)
 			{
-				CurrentProperty = Item.Value;
-				PlayTimeline(CurrentProperty.GetValue().Curve);
+				if(name.Equals(Item.Key))
+				{
+					CurrentProperty = Item.Value;
+					PlayTimeline(CurrentProperty.GetValue().Curve);
+				}
+			}
+			if(LightList.IsEmpty())
+			{
+				GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Orange,
+						FString::Printf(TEXT("%s - Light List 가 비어 있습니다."),*this->GetOwner()->GetName()));
+				DrawDebugSphere(GetWorld(),GetOwner()->GetActorLocation(),13.f,6,FColor::White,false,5.f,0,1.f);
 			}
 		}
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Orange,
+				FString::Printf(TEXT("%s - Light Component 가 없습니다."),*this->GetOwner()->GetName()));
 	}
 }
 
@@ -98,6 +103,7 @@ void UOlimLightInteractComponent::Interaction(TOptional<FOlimLightProperty>& pro
 
 void UOlimLightInteractComponent::Interact(FString str, EOlimActorType type)
 {
+	// TODO CPP
 }
 
 void UOlimLightInteractComponent::InteractBP_Implementation(const FString& str, EOlimActorType type)
@@ -105,11 +111,16 @@ void UOlimLightInteractComponent::InteractBP_Implementation(const FString& str, 
 	switch (type)
 	{
 	case EOlimActorType::EAS_Actor:
+		if(ComponentState == EOlimLightComponentState::EOLCS_Off)
+		{
+			if(str.Equals("On")) {LightState = EOlimLightState::EOLS_On;}
+			else if(str.Equals("Off")) {LightState = EOlimLightState::EOLS_Off;}			
+		}
 		GetProperty(str);
 		break;
-	case EOlimActorType::EAS_Marker:
+	case EOlimActorType::EAS_ActorBucket:
 		break;
-	case EOlimActorType::EAS_Manger:
+	case EOlimActorType::EAS_EventHandler:
 		break;
 	case EOlimActorType::EAS_DefaultMAX:
 		break;

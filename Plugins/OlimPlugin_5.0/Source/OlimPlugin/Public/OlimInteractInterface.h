@@ -11,8 +11,8 @@ UENUM(BlueprintType)
 enum class EOlimActorType : uint8
 {
 	EAS_Actor UMETA(DisplayName = "Actor"),
-	EAS_Marker UMETA(DisplayName = "Marker"),
-	EAS_Manger UMETA(DisplayName = "Manger"),
+	EAS_ActorBucket UMETA(DisplayName = "ActorBucket"),
+	EAS_EventHandler UMETA(DisplayName = "EventHandler"),
 	
 	EAS_DefaultMAX UMETA(DisplayName = "MAX")
 };

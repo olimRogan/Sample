@@ -10,13 +10,11 @@
 // Sets default values
 AOlimInteractActor::AOlimInteractActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = false;
 
 	MovableInteractComponent = CreateDefaultSubobject<UOlimMovableInteractComponent>(TEXT("MovableComponent"));
 	LightInteractComponent = CreateDefaultSubobject<UOlimLightInteractComponent>(TEXT("LightComponent"));
 	
-	PrimaryActorTick.bCanEverTick = true;
-
 	RootScene = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	SetRootComponent(RootScene);
 
@@ -26,7 +24,6 @@ AOlimInteractActor::AOlimInteractActor()
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
 	MeshComponent->SetupAttachment(GetRootComponent());
-
 }
 
 // Called when the game starts or when spawned
@@ -36,13 +33,5 @@ void AOlimInteractActor::BeginPlay()
 
 	if(MovableInteractComponent.Get()) {MovableInteractComponent.Get()->InteractActor = this;}
 	if(LightInteractComponent.Get()) {LightInteractComponent.Get()->InteractActor = this;}
-	
-}
-
-// Called every frame
-void AOlimInteractActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
