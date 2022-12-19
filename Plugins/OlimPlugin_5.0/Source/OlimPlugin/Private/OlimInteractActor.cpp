@@ -24,6 +24,18 @@ AOlimInteractActor::AOlimInteractActor()
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
 	MeshComponent->SetupAttachment(GetRootComponent());
+
+// Add section
+#if WITH_EDITOR
+#define LOCTEXT_NAMESPACE "Custom Detail"
+     static const FName PropertyEditor("PropertyEditor");
+     FPropertyEditorModule& PropertyModule = FModuleManager::GetModuleChecked<FPropertyEditorModule>(PropertyEditor);
+ 
+     const TSharedRef<FPropertySection> Section = PropertyModule.FindOrCreateSection("Actor", "Product", LOCTEXT("Product", "Product"));
+     // 섹션에서 여러 카테고리 추가 가능
+     Section->AddCategory("Product");
+ #undef LOCTEXT_NAMESPACE
+ #endif
 }
 
 // Called when the game starts or when spawned
