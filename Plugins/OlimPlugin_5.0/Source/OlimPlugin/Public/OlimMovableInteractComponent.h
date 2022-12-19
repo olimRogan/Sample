@@ -14,15 +14,15 @@ struct FOlimMovableProperty
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
 	FTransform FromTransform;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
 	FTransform ToTransform;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
 	TObjectPtr<UCurveFloat> Curve;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UMaterial> Material;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
+	class UMaterial* Material;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
 	bool bReverse;
 };
 
@@ -72,16 +72,17 @@ public:
 	virtual void Interact(FString string,EOlimActorType type) override;
 	
 	// Interface 함수 - BP
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interface")
 	void InteractBP(const FString& str,EOlimActorType type);
 	virtual void InteractBP_Implementation(const FString& str, EOlimActorType type) override;
 	
 public:
-	// 현재 상태
-	UPROPERTY(BlueprintReadOnly)
+	// 컴포넌트가 동작 중인지?
+	UPROPERTY(BlueprintReadOnly, Category = "Enum")
 	EOlimMovableComponentState ComponentState = EOlimMovableComponentState::EOMCS_Wait;
 
-	UPROPERTY(BlueprintReadWrite)
+	// 동작 상태 (Open/Close)
+	UPROPERTY(BlueprintReadWrite, Category = "Enum")
 	EOlimMovementState MovementState = EOlimMovementState::EOMS_Close;
 
 	// Interact List
@@ -99,7 +100,7 @@ public:
 	FTimeline InteractTimeline;
 
 	// 타임라인 이벤트 - Curve 사용
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Timeline")
 	void PlayTimeline(UCurveFloat* curve);
 
 	// 타임라인 시간 얻어오기
@@ -111,7 +112,7 @@ public:
 	void TimelineFinish();
 
 	// 타임라인 시간 - Lerp 에서 사용하는 Alpha
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "Timeline")
 	float TimelineAlpha;
 #pragma endregion Timeline
 };

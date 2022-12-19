@@ -64,7 +64,7 @@ void UOlimLightInteractComponent::GetProperty(const FString& name)
 	}
 }
 
-void UOlimLightInteractComponent::Interaction(TOptional<FOlimLightProperty>& property, TObjectPtr<ULightComponent> light)
+void UOlimLightInteractComponent::Interaction(TOptional<FOlimLightProperty>& property, ULightComponent* light)
 {
 	if(light)
 	{

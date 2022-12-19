@@ -8,7 +8,7 @@ public class UE5CPPSample : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" ,"LevelEditor", "UnrealEd"});
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" ,"LevelEditor", "UnrealEd", "OlimPlugin"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

@@ -26,24 +26,24 @@ public:
 
 	// Root Scene
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Component")
-	TObjectPtr<USceneComponent> RootScene;
+	TObjectPtr<USceneComponent> RootScene = nullptr;
 
 	// Billboard 
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Component")
-	TObjectPtr<UBillboardComponent> BillboardComponent;
+	class UBillboardComponent* BillboardComponent = nullptr;
 
 	// Mesh Component
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Product")
-	TObjectPtr<UStaticMeshComponent> MeshComponent;
+	TObjectPtr<UStaticMeshComponent> MeshComponent = nullptr;
 	
 private:
 	// Interact Component - Movable
-	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, meta = (AllowPrivateAccess ="true"))
-	TObjectPtr<class UOlimMovableInteractComponent> MovableInteractComponent;
+	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Component", meta = (AllowPrivateAccess ="true"))
+	TObjectPtr<class UOlimMovableInteractComponent> MovableInteractComponent = nullptr;
 	
 	// Interact Component - Light
-	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, meta = (AllowPrivateAccess ="true"))
-	TObjectPtr<class UOlimLightInteractComponent> LightInteractComponent;
+	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Component", meta = (AllowPrivateAccess ="true"))
+	TObjectPtr<class UOlimLightInteractComponent> LightInteractComponent = nullptr;
 	
 
 	// 마우스 클릭 반응 체크
