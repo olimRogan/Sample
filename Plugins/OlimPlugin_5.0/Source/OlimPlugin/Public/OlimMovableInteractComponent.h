@@ -77,7 +77,7 @@ public:
 	virtual void InteractBP_Implementation(const FString& str, EOlimActorType type) override;
 	
 public:
-	// 컴포넌트가 동작 중인지?
+	// 컴포넌트 동작 상태
 	UPROPERTY(BlueprintReadOnly, Category = "Enum")
 	EOlimMovableComponentState ComponentState = EOlimMovableComponentState::EOMCS_Wait;
 
@@ -87,7 +87,7 @@ public:
 
 	// Interact List
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Product")
-	TMap<FString, FOlimMovableProperty> MovableList;
+	TMap<FString, FOlimMovableProperty> MovableList = {{"Open",FOlimMovableProperty()},{"Close",FOlimMovableProperty()}};
 
 	// 현재 Property
 	TOptional<FOlimMovableProperty> CurrentProperty;

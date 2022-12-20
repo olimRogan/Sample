@@ -75,7 +75,7 @@ public:
 	virtual void InteractBP_Implementation(const FString& str, EOlimActorType type) override;
 
 public:
-	// 컴포넌트가 동작 중인지?
+	// 컴포넌트가 동작 상태
 	UPROPERTY(BlueprintReadOnly, Category = "Enum")
 	EOlimLightComponentState ComponentState = EOlimLightComponentState::EOLCS_Off;
 
@@ -85,7 +85,7 @@ public:
 
 	// Interact List
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Product")
-	TMap<FString, FOlimLightProperty> LightList;
+	TMap<FString, FOlimLightProperty> LightList = {{"On",FOlimLightProperty()},{"Off",FOlimLightProperty()}};
 
 	// 현재 Property
 	TOptional<FOlimLightProperty> CurrentProperty;

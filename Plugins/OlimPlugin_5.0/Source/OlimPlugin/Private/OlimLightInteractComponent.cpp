@@ -54,18 +54,7 @@ void UOlimLightInteractComponent::GetProperty(const FString& name)
 					PlayTimeline(CurrentProperty.GetValue().Curve);
 				}
 			}
-			if(LightList.IsEmpty())
-			{
-				GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Orange,
-						FString::Printf(TEXT("%s - Light List 가 비어 있습니다."),*this->GetOwner()->GetName()));
-				DrawDebugSphere(GetWorld(),GetOwner()->GetActorLocation(),13.f,6,FColor::White,false,5.f,0,1.f);
-			}
 		}
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Orange,
-				FString::Printf(TEXT("%s - Light Component 가 없습니다."),*this->GetOwner()->GetName()));
 	}
 }
 

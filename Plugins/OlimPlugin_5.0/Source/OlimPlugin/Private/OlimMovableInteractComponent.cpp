@@ -45,12 +45,6 @@ void UOlimMovableInteractComponent::GetProperty(const FString& name)
 				PlayTimeline(CurrentProperty.GetValue().Curve);
 			}
 		}
-		if(MovableList.IsEmpty())
-		{
-			GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Orange,
-					FString::Printf(TEXT("%s - Movable List 가 비어 있습니다."),*this->GetOwner()->GetName()));
-			DrawDebugSphere(GetWorld(),GetOwner()->GetActorLocation(),15.f,6,FColor::Orange,false,5.f,0,1.f);
-		}
 	}
 }
 
