@@ -7,6 +7,7 @@
 .vs/
 Plugins/*/Binaries/
 Plugins/*/Intermediate/
+Plugins/OlimPlugin/Package
 *.sln
 /web360info
 *.exe
