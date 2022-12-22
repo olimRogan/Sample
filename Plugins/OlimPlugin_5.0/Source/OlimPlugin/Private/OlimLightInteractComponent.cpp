@@ -26,7 +26,7 @@ void UOlimLightInteractComponent::TickComponent(float DeltaTime, ELevelTick Tick
 
 	InteractTimeline.TickTimeline(DeltaTime);
 
-	if(ComponentState == EOlimLightComponentState::EOLCS_On)
+	if(ComponentState == EOlimLightComponentState::EOLCS_On)\
 	{
 		if(InteractActor)
 		{
@@ -58,7 +58,7 @@ void UOlimLightInteractComponent::GetProperty(const FString& name)
 	}
 }
 
-void UOlimLightInteractComponent::Interaction(TOptional<FOlimLightProperty>& property, ULightComponent* light)
+void UOlimLightInteractComponent::Interaction(const TOptional<FOlimLightProperty>& property, ULightComponent* light)
 {
 	if(light)
 	{
@@ -90,12 +90,12 @@ void UOlimLightInteractComponent::Interaction(TOptional<FOlimLightProperty>& pro
 	}
 }
 
-void UOlimLightInteractComponent::Interact(FString str, EOlimActorType type)
+void UOlimLightInteractComponent::Interact(const FString& string, EOlimActorType type)
 {
 	// TODO CPP
 }
 
-void UOlimLightInteractComponent::InteractBP_Implementation(const FString& str, EOlimActorType type)
+void UOlimLightInteractComponent::InteractBP_Implementation(const FString& str,const EOlimActorType type)
 {
 	switch (type)
 	{

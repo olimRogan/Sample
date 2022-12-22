@@ -64,15 +64,15 @@ public:
 	void GetProperty(const FString& name);
 	
 	// 상호작용
-	void Interaction(TOptional<FOlimLightProperty>& property,class ULightComponent* light);
+	void Interaction(const TOptional<FOlimLightProperty>& property,class ULightComponent* light);
 
 	// Interface 함수
-	virtual void Interact(FString str,EOlimActorType type) override;
+	virtual void Interact(const FString& string,EOlimActorType type) override;
 	
 	// Interface 함수 - BP
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interface")
-	void InteractBP(const FString& str,EOlimActorType type);
-	virtual void InteractBP_Implementation(const FString& str, EOlimActorType type) override;
+	void InteractBP(const FString& str,const EOlimActorType type);
+	virtual void InteractBP_Implementation(const FString& str,const EOlimActorType type) override;
 
 public:
 	// 컴포넌트가 동작 상태

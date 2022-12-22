@@ -40,7 +40,6 @@ private:
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Component", meta = (AllowPrivateAccess ="true"))
 	TObjectPtr<class UOlimLightInteractComponent> LightInteractComponent = nullptr;
 	
-
 	// 마우스 클릭 반응 체크
 	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category = "Product", meta =(AllowPrivateAccess = "true"))
 	bool bEnableClick;

@@ -48,7 +48,7 @@ void UOlimMovableInteractComponent::GetProperty(const FString& name)
 	}
 }
 
-void UOlimMovableInteractComponent::Interaction(TOptional<FOlimMovableProperty>& property,
+void UOlimMovableInteractComponent::Interaction(const TOptional<FOlimMovableProperty>& property,
 	TObjectPtr<UStaticMeshComponent> mesh)
 {
 	if(!property.IsSet() || mesh == nullptr) return;
@@ -64,12 +64,12 @@ void UOlimMovableInteractComponent::Interaction(TOptional<FOlimMovableProperty>&
 	mesh->SetRelativeTransform(newTransform);
 }
 
-void UOlimMovableInteractComponent::Interact(FString str, EOlimActorType type)
+void UOlimMovableInteractComponent::Interact(const FString& string, EOlimActorType type)
 {
 	// TODO CPP
 }
 
-void UOlimMovableInteractComponent::InteractBP_Implementation(const FString& str, EOlimActorType type)
+void UOlimMovableInteractComponent::InteractBP_Implementation(const FString& str,const EOlimActorType type)
 {
 	switch (type)
 	{

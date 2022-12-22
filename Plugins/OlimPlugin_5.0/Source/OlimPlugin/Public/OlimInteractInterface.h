@@ -30,9 +30,9 @@ class OLIMPLUGIN_API IOlimInteractInterface
 
 public:
 	// CPP
-	virtual void Interact(FString string, EOlimActorType type) = 0;
+	virtual void Interact(const FString& string, EOlimActorType type) = 0;
 	
 	// BP
 	UFUNCTION(BlueprintCallable,BlueprintNativeEvent, Category = "Interact")
-	void InteractBP(const FString& str,EOlimActorType type);
+	void InteractBP(const FString& str,const EOlimActorType type);
 };

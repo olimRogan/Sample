@@ -66,15 +66,15 @@ public:
 	void GetProperty(const FString& name);
 
 	// 상호작용
-	void Interaction(TOptional<FOlimMovableProperty>& property, TObjectPtr<UStaticMeshComponent> mesh);
+	void Interaction(const TOptional<FOlimMovableProperty>& property, TObjectPtr<UStaticMeshComponent> mesh);
 
 	// Interface 함수
-	virtual void Interact(FString string,EOlimActorType type) override;
+	virtual void Interact(const FString& string,EOlimActorType type) override;
 	
 	// Interface 함수 - BP
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interface")
-	void InteractBP(const FString& str,EOlimActorType type);
-	virtual void InteractBP_Implementation(const FString& str, EOlimActorType type) override;
+	void InteractBP(const FString& str,const EOlimActorType type);
+	virtual void InteractBP_Implementation(const FString& str,const EOlimActorType type) override;
 	
 public:
 	// 컴포넌트 동작 상태
