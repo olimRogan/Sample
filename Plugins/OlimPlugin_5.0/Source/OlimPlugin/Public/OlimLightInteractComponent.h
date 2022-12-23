@@ -13,16 +13,22 @@ struct FOlimLightProperty
 {
 	GENERATED_BODY()
 public:
+	// 처음 밝기
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Property")
 	float FromIntensity;
+	// 끝 밝기
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Property")
 	float ToIntensity;
+	// 처음 색상
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Property")
 	FLinearColor FromColor;
+	// 끝 색상
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Property")
 	FLinearColor ToColor;
+	// Float Curve
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Property")
 	TObjectPtr<UCurveFloat> Curve;
+	// 역방향
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Property")
 	bool bReverse;
 };
@@ -47,7 +53,7 @@ enum class EOlimLightState : uint8
 	EOLS_DefaultMAX UMETA(DisplayName = "MAX")
 };
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),HideCategories = ("Activation","Cooking","Collision","AssetUserData") )
 class OLIMPLUGIN_API UOlimLightInteractComponent : public UActorComponent, public IOlimInteractInterface
 {
 	GENERATED_BODY()

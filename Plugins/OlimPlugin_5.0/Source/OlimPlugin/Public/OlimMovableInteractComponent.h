@@ -14,14 +14,16 @@ struct FOlimMovableProperty
 {
 	GENERATED_BODY()
 public:
+	// 시작 위치
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
 	FTransform FromTransform;
+	// 끝 위치
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
 	FTransform ToTransform;
+	// Float Curve
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
 	TObjectPtr<UCurveFloat> Curve;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
-	class UMaterial* Material;
+	// 역방향
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
 	bool bReverse;
 };
@@ -47,7 +49,7 @@ enum class EOlimMovementState : uint8
 };
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),HideCategories = ("Activation","Cooking","Collision","AssetUserData") )
 class OLIMPLUGIN_API UOlimMovableInteractComponent : public UActorComponent, public IOlimInteractInterface
 {
 	GENERATED_BODY()
