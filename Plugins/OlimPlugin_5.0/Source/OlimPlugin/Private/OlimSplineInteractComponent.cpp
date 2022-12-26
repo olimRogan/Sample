@@ -10,7 +10,9 @@
 #include "Kismet/KismetMathLibrary.h"
 
 // Sets default values for this component's properties
-UOlimSplineInteractComponent::UOlimSplineInteractComponent()
+UOlimSplineInteractComponent::UOlimSplineInteractComponent() :
+	Speed(100.f),
+	TurnSpeed(3.f)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
@@ -53,7 +55,7 @@ void UOlimSplineInteractComponent::TickComponent(float DeltaTime, ELevelTick Tic
 				Time+=(DeltaTime*(Speed/SplineLength));
 				const FVector loc = SplineActor->GetSpline()->GetLocationAtTime(Time,ESplineCoordinateSpace::World,true);
 				const FRotator rot = SplineActor->GetSpline()->GetRotationAtTime(Time,ESplineCoordinateSpace::World,true);
-				const FRotator interpRot = UKismetMathLibrary::RInterpTo(OlimInteractActor->GetActorRotation(),rot,DeltaTime,3.f);
+				const FRotator interpRot = UKismetMathLibrary::RInterpTo(OlimInteractActor->GetActorRotation(),rot,DeltaTime,TurnSpeed);
 				OlimInteractActor->SetActorLocation(loc);
 				OlimInteractActor->SetActorRotation(interpRot);
 				
@@ -65,7 +67,7 @@ void UOlimSplineInteractComponent::TickComponent(float DeltaTime, ELevelTick Tic
 			if(Time <= 0.f)
 			{
 				Time = 0.f;
-				const FRotator interpRot = UKismetMathLibrary::RInterpTo(OlimInteractActor->GetActorRotation(),InitRotation,DeltaTime,3.f);
+				const FRotator interpRot = UKismetMathLibrary::RInterpTo(OlimInteractActor->GetActorRotation(),InitRotation,DeltaTime,TurnSpeed);
 				OlimInteractActor->SetActorRotation(interpRot);
 			}
 			else
@@ -76,8 +78,9 @@ void UOlimSplineInteractComponent::TickComponent(float DeltaTime, ELevelTick Tic
 				const FRotator rot = SplineActor->GetSpline()->GetRotationAtTime(Time,ESplineCoordinateSpace::World,true);
 				const FRotator newRot = UKismetMathLibrary::FindLookAtRotation(OlimInteractActor->GetActorLocation(),
 					(UKismetMathLibrary::GetForwardVector(rot)*-50.f)+loc);
+				const FRotator interpRot = UKismetMathLibrary::RInterpTo(OlimInteractActor->GetActorRotation(),newRot,DeltaTime,TurnSpeed);
 				OlimInteractActor->SetActorLocation(loc);
-				OlimInteractActor->SetActorRotation(newRot);
+				OlimInteractActor->SetActorRotation(interpRot);
 				CurrentLength-=(DeltaTime*Speed);
 			}
 			break;

@@ -51,6 +51,10 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Product|Spline")
 	float Speed;
 
+	// 회전 속도
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Product|Spline")
+	float TurnSpeed;
+
 	UPROPERTY()
 	EOlimSplineComponentState State;
 	
