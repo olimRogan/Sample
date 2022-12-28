@@ -8,6 +8,17 @@
 #include "Components/TimelineComponent.h"
 #include "OlimMovableInteractComponent.generated.h"
 
+USTRUCT(Atomic, BlueprintType)
+struct FOlimTransform
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
+	FVector Location;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property" ,meta = (ClampMin=-360,ClampMax=360))
+	FRotator Rotation;
+};
+
 // Property 구조체
 USTRUCT(Atomic, BlueprintType)
 struct FOlimMovableProperty
@@ -16,10 +27,10 @@ struct FOlimMovableProperty
 public:
 	// 시작 위치
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
-	FTransform FromTransform;
+	FOlimTransform FromTransform;
 	// 끝 위치
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
-	FTransform ToTransform;
+	FOlimTransform ToTransform;
 	// Float Curve
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "Property")
 	TObjectPtr<UCurveFloat> Curve;

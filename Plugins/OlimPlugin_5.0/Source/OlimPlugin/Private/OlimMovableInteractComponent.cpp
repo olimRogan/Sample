@@ -53,15 +53,20 @@ void UOlimMovableInteractComponent::Interaction(const TOptional<FOlimMovableProp
 {
 	if(!property.IsSet() || mesh == nullptr) return;
 
-	const FTransform toTransform = property.GetValue().ToTransform;
-	const FTransform fromTransform = property.GetValue().FromTransform;
+	const FOlimTransform toTransform = property.GetValue().ToTransform;
+	const FOlimTransform fromTransform = property.GetValue().FromTransform;
+	
+	const FVector aLoc = UKismetMathLibrary::VLerp(fromTransform.Location,toTransform.Location,TimelineAlpha);
+	const FVector bLoc = UKismetMathLibrary::VLerp(toTransform.Location,fromTransform.Location,TimelineAlpha);
 
-	const FTransform a = UKismetMathLibrary::TLerp(fromTransform,toTransform,TimelineAlpha); 
-	const FTransform b = UKismetMathLibrary::TLerp(toTransform,fromTransform,TimelineAlpha); 
+	const FRotator aRot = UKismetMathLibrary::RLerp(fromTransform.Rotation,toTransform.Rotation,TimelineAlpha,false);
+	const FRotator bRot = UKismetMathLibrary::RLerp(toTransform.Rotation,fromTransform.Rotation,TimelineAlpha,false);
 	
-	const FTransform newTransform = UKismetMathLibrary::SelectTransform(a,b,!property.GetValue().bReverse);
+	const FVector newLocation = UKismetMathLibrary::SelectVector(aLoc,bLoc,!property.GetValue().bReverse);
+	const FRotator newRotation = UKismetMathLibrary::SelectRotator(aRot,bRot,!property.GetValue().bReverse);
 	
-	mesh->SetRelativeTransform(newTransform);
+	mesh->SetRelativeLocation(newLocation);
+	mesh->SetRelativeRotation(newRotation);
 }
 
 void UOlimMovableInteractComponent::Interact(const FString& string, EOlimActorType type)
