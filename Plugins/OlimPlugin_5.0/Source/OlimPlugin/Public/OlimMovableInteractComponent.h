@@ -53,9 +53,9 @@ enum class EOlimMovableComponentState : uint8
 UENUM(BlueprintType)
 enum class EOlimMovementState : uint8
 {
-	EOMS_Open UMETA(DisplayName = "Open"),
 	EOMS_Close UMETA(DisplayName = "Close"),
-
+	EOMS_Open UMETA(DisplayName = "Open"),
+	
 	EOMS_DefaultMAX UMETA(DisplayName = "MAX")
 };
 

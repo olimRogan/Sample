@@ -70,7 +70,7 @@ public:
 	void GetProperty(const FString& name);
 	
 	// 상호작용
-	void Interaction(const TOptional<FOlimLightProperty>& property,class ULightComponent* light);
+	void Interaction(const TOptional<FOlimLightProperty>& property,class ULightComponent* lightComp);
 
 	// Interface 함수
 	virtual void Interact(const FString& string,EOlimActorType type) override;
@@ -92,6 +92,9 @@ public:
 	// Interact List
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Product")
 	TMap<FString, FOlimLightProperty> LightList = {{"On",FOlimLightProperty()},{"Off",FOlimLightProperty()}};
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Product")
+	TObjectPtr<class AOlimLightActor> LightActor;
 
 	// 현재 Property
 	TOptional<FOlimLightProperty> CurrentProperty;

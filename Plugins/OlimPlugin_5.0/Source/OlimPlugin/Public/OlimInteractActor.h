@@ -44,4 +44,8 @@ private:
 	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category = "Product", meta =(AllowPrivateAccess = "true"))
 	bool bEnableClick;
 
+public:
+	
+	TObjectPtr<UOlimLightInteractComponent> GetLightInteractComponent() const {return LightInteractComponent;}
+	TObjectPtr<UOlimMovableInteractComponent> GetMovableInteractComponent() const {return MovableInteractComponent;}
 };

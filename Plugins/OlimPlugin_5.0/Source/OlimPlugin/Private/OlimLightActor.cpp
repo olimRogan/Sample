@@ -3,12 +3,14 @@
 
 #include "OlimLightActor.h"
 
+#include "OlimInteractActor.h"
+#include "OlimLightInteractComponent.h"
+#include "OlimMovableInteractComponent.h"
+
 // Sets default values
 AOlimLightActor::AOlimLightActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	
 }
 
 // Called when the game starts or when spawned
@@ -18,10 +20,29 @@ void AOlimLightActor::BeginPlay()
 	
 }
 
-// Called every frame
-void AOlimLightActor::Tick(float DeltaTime)
+void AOlimLightActor::Interact(const FString& string, EOlimActorType type)
 {
-	Super::Tick(DeltaTime);
-
+	ActiveActors.Empty();
+	if(!InteractActors.IsEmpty())
+	{
+		for (AOlimInteractActor* Actor : InteractActors)
+		{
+			if(Actor->GetMovableInteractComponent().Get()->MovementState == EOlimMovementState::EOMS_Open)
+			{
+				ActiveActors.Emplace(Actor);
+			}
+		}
+		if(ActiveActors.Num() > 1)
+		{
+			bCanTurnOn = false;
+		}
+		else
+		{
+			if(ActiveActors.Num() == 0)
+			{
+				bCanTurnOn = true;
+			}
+		}
+	}
 }
 

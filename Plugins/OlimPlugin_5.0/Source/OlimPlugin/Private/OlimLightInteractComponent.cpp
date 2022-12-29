@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "OlimLightInteractComponent.h"
 #include "OlimInteractActor.h"
+#include "OlimLightActor.h"
 #include "Components/LightComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -26,11 +27,11 @@ void UOlimLightInteractComponent::TickComponent(float DeltaTime, ELevelTick Tick
 
 	InteractTimeline.TickTimeline(DeltaTime);
 
-	if(ComponentState == EOlimLightComponentState::EOLCS_On)\
+	if(ComponentState == EOlimLightComponentState::EOLCS_On)
 	{
 		if(InteractActor)
 		{
-			if(LightComponent)
+			if(LightComponent || LightActor)
 			{
 				Interaction(CurrentProperty,LightComponent);	
 			}
@@ -56,11 +57,37 @@ void UOlimLightInteractComponent::GetProperty(const FString& name)
 			}
 		}
 	}
+	else if(!LightComponent && LightActor)
+	{
+		// LightActor Interface Message 전송
+		if(LightActor->GetClass()->ImplementsInterface(UOlimInteractInterface::StaticClass()))
+		{
+			IOlimInteractInterface* Interface = Cast<IOlimInteractInterface>(LightActor);
+			if(Interface) {Interface->Interact("CPP",EOlimActorType::EAS_Actor);}
+		}
+
+		// 불을 켤 수 있는지 검사
+		if(LightActor->bCanTurnOn)
+		{
+			if(ComponentState == EOlimLightComponentState::EOLCS_Off)
+			{
+				// Key : FString, Value : FMovableProperty
+				for (TTuple<FString, FOlimLightProperty>& Item : LightList)
+				{
+					if(name.Equals(Item.Key))
+					{
+						CurrentProperty = Item.Value;
+						PlayTimeline(CurrentProperty.GetValue().Curve);
+					}
+				}
+			}
+		}
+	}
 }
 
-void UOlimLightInteractComponent::Interaction(const TOptional<FOlimLightProperty>& property, ULightComponent* light)
+void UOlimLightInteractComponent::Interaction(const TOptional<FOlimLightProperty>& property, ULightComponent* lightComp)
 {
-	if(light)
+	if(lightComp && LightActor)
 	{
 		// 밝기 조절
 		{
@@ -72,7 +99,7 @@ void UOlimLightInteractComponent::Interaction(const TOptional<FOlimLightProperty
 
 			const float newIntensity = UKismetMathLibrary::SelectFloat(lerpIntensity,reverseLerpIntensity,!property.GetValue().bReverse);
 
-			light->SetIntensity(newIntensity);
+			lightComp->SetIntensity(newIntensity);
 		}
 		
 		// 색상 조절
@@ -85,7 +112,43 @@ void UOlimLightInteractComponent::Interaction(const TOptional<FOlimLightProperty
 
 			const FLinearColor newLightColor = UKismetMathLibrary::SelectColor(lerpColor,reverseLerpColor,!property.GetValue().bReverse);
 
-			light->SetLightColor(newLightColor);
+			lightComp->SetLightColor(newLightColor);
+		}
+	}
+	if(LightActor && lightComp == nullptr)
+	{
+		// 밝기 조절
+		{
+			const float fromIntensity = property.GetValue().FromIntensity;
+			const float toIntensity = property.GetValue().ToIntensity;
+
+			const float lerpIntensity = UKismetMathLibrary::Lerp(fromIntensity,toIntensity,TimelineAlpha);
+			const float reverseLerpIntensity = UKismetMathLibrary::Lerp(toIntensity,fromIntensity,TimelineAlpha);
+
+			const float newIntensity = UKismetMathLibrary::SelectFloat(lerpIntensity,reverseLerpIntensity,!property.GetValue().bReverse);
+			
+			ULightComponent* Light = Cast<ULightComponent>(LightActor->GetComponentByClass(ULightComponent::StaticClass()));
+			if(Light)
+			{
+				Light->SetIntensity(newIntensity);
+			}
+		}
+		
+		// 색상 조절
+		{
+			const FLinearColor fromColor = property.GetValue().FromColor;
+			const FLinearColor toColor = property.GetValue().ToColor;
+
+			const FLinearColor lerpColor = UKismetMathLibrary::LinearColorLerp(fromColor,toColor,TimelineAlpha);
+			const FLinearColor reverseLerpColor = UKismetMathLibrary::LinearColorLerp(toColor,fromColor,TimelineAlpha);
+
+			const FLinearColor newLightColor = UKismetMathLibrary::SelectColor(lerpColor,reverseLerpColor,!property.GetValue().bReverse);
+			
+			ULightComponent* Light = Cast<ULightComponent>(LightActor->GetComponentByClass(ULightComponent::StaticClass()));
+			if(Light)
+			{
+				Light->SetLightColor(newLightColor);
+			}
 		}
 	}
 }
@@ -131,8 +194,8 @@ void UOlimLightInteractComponent::PlayTimeline(UCurveFloat* curve)
 		InteractTimeline.SetTimelineFinishedFunc(FinishEvent);
 
 		ComponentState = EOlimLightComponentState::EOLCS_On;
-		InteractTimeline.PlayFromStart();
 		
+		InteractTimeline.PlayFromStart();	
 	}
 }
 
