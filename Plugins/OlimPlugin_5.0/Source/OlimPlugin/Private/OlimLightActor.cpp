@@ -17,7 +17,14 @@ AOlimLightActor::AOlimLightActor()
 void AOlimLightActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	for (const AOlimInteractActor* Actor : InteractActors)
+	{
+		if(Actor)
+		{
+			Actor->GetLightInteractComponent()->LightActor = this;	
+		}
+	}
 }
 
 void AOlimLightActor::Interact(const FString& string, EOlimActorType type)
@@ -27,9 +34,12 @@ void AOlimLightActor::Interact(const FString& string, EOlimActorType type)
 	{
 		for (AOlimInteractActor* Actor : InteractActors)
 		{
-			if(Actor->GetMovableInteractComponent().Get()->MovementState == EOlimMovementState::EOMS_Open)
+			if(Actor)
 			{
-				ActiveActors.Emplace(Actor);
+				if(Actor->GetMovableInteractComponent().Get()->MovementState == EOlimMovementState::EOMS_Open)
+				{
+					ActiveActors.Emplace(Actor);
+				}
 			}
 		}
 		if(ActiveActors.Num() > 1)

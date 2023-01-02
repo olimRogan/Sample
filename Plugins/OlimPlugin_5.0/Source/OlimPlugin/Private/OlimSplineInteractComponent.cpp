@@ -30,8 +30,7 @@ void UOlimSplineInteractComponent::BeginPlay()
 		const FVector loc = SplineActor->GetSpline()->GetLocationAtTime(0.f,ESplineCoordinateSpace::World);
 		OlimInteractActor->SetActorLocation(loc);
 	}
-}
-
+} 
 
 // Called every frame
 void UOlimSplineInteractComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

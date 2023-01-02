@@ -10,6 +10,7 @@ UCLASS()
 class OLIMPLUGIN_API AOlimInteractActor : public AActor
 {
 	GENERATED_BODY()
+
 	
 public:	
 	AOlimInteractActor();

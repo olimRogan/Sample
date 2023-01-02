@@ -93,7 +93,7 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Product")
 	TMap<FString, FOlimLightProperty> LightList = {{"On",FOlimLightProperty()},{"Off",FOlimLightProperty()}};
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Product")
+	UPROPERTY()
 	TObjectPtr<class AOlimLightActor> LightActor;
 
 	// 현재 Property
