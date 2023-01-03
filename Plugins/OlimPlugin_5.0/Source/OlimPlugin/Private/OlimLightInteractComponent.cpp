@@ -41,33 +41,10 @@ void UOlimLightInteractComponent::TickComponent(float DeltaTime, ELevelTick Tick
 
 void UOlimLightInteractComponent::GetProperty(const FString& name)
 {
-	LightComponent = Cast<ULightComponent>(InteractActor.Get()->GetComponentByClass(ULightComponent::StaticClass()));
-	if(LightComponent)
+	if(InteractActor)
 	{
-		if(ComponentState == EOlimLightComponentState::EOLCS_Off)
-		{
-			// Key : FString, Value : FMovableProperty
-			for (TTuple<FString, FOlimLightProperty>& Item : LightList)
-			{
-				if(name.Equals(Item.Key))
-				{
-					CurrentProperty = Item.Value;
-					PlayTimeline(CurrentProperty.GetValue().Curve);
-				}
-			}
-		}
-	}
-	else if(!LightComponent && LightActor)
-	{
-		// LightActor Interface Message 전송
-		if(LightActor->GetClass()->ImplementsInterface(UOlimInteractInterface::StaticClass()))
-		{
-			IOlimInteractInterface* Interface = Cast<IOlimInteractInterface>(LightActor);
-			if(Interface) {Interface->Interact("CPP",EOlimActorType::EAS_Actor);}
-		}
-
-		// 불을 켤 수 있는지 검사
-		if(LightActor->bCanTurnOn)
+		LightComponent = Cast<ULightComponent>(InteractActor.Get()->GetComponentByClass(ULightComponent::StaticClass()));
+		if(LightComponent)
 		{
 			if(ComponentState == EOlimLightComponentState::EOLCS_Off)
 			{
@@ -78,6 +55,32 @@ void UOlimLightInteractComponent::GetProperty(const FString& name)
 					{
 						CurrentProperty = Item.Value;
 						PlayTimeline(CurrentProperty.GetValue().Curve);
+					}
+				}
+			}
+		}
+		else if(!LightComponent && LightActor)
+		{
+			// LightActor Interface Message 전송
+			if(LightActor->GetClass()->ImplementsInterface(UOlimInteractInterface::StaticClass()))
+			{
+				IOlimInteractInterface* Interface = Cast<IOlimInteractInterface>(LightActor);
+				if(Interface) {Interface->Interact("CPP",EOlimActorType::EAS_Actor);}
+			}
+
+			// 불을 켤 수 있는지 검사
+			if(LightActor->bCanTurnOn)
+			{
+				if(ComponentState == EOlimLightComponentState::EOLCS_Off)
+				{
+					// Key : FString, Value : FMovableProperty
+					for (TTuple<FString, FOlimLightProperty>& Item : LightList)
+					{
+						if(name.Equals(Item.Key))
+						{
+							CurrentProperty = Item.Value;
+							PlayTimeline(CurrentProperty.GetValue().Curve);
+						}
 					}
 				}
 			}

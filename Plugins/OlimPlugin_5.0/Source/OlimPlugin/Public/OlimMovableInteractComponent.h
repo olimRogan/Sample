@@ -107,7 +107,7 @@ public:
 	
 	// Interact Actor
 	UPROPERTY()
-	TObjectPtr<class AOlimInteractActor> InteractActor;
+	TObjectPtr<UStaticMeshComponent>  MeshComponent;
 #pragma region Timeline
 	// 타임라인
 	FTimeline InteractTimeline;

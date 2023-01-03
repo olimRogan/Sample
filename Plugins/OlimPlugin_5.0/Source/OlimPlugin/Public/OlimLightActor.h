@@ -26,7 +26,7 @@ protected:
 	
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Product")
 	TArray<TObjectPtr<class AOlimInteractActor>> InteractActors;
-
+	
 	UPROPERTY()
 	TArray<TObjectPtr<AOlimInteractActor>> ActiveActors;
 	

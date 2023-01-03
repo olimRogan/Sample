@@ -28,6 +28,10 @@ public:
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Component")
 	class UBillboardComponent* BillboardComponent = nullptr;
 
+	// Billboard 
+	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Component")
+	class UBillboardComponent* AttachPoint = nullptr;
+
 	// Mesh Component
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Product")
 	TObjectPtr<UStaticMeshComponent> MeshComponent = nullptr;
@@ -44,6 +48,13 @@ private:
 	// 마우스 클릭 반응 체크
 	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category = "Product", meta =(AllowPrivateAccess = "true"))
 	bool bEnableClick;
+
+	// Attach 체크
+	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category = "Product", meta =(AllowPrivateAccess = "true"))
+	bool bEnableAttach;
+
+	UPROPERTY(BlueprintReadOnly,EditAnywhere,Category = "Product", meta =(AllowPrivateAccess = "true",EditCondition = "bEnableAttach" ,EditConditionHides))
+	TMap<TObjectPtr<class AOlimInteractAttachActor>,FString> AttachActors;
 
 public:
 	

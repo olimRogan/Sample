@@ -1,20 +1,16 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "OlimMovableInteractComponent.h"
-#include "OlimInteractActor.h"
 #include "Kismet/KismetMathLibrary.h"
 
 UOlimMovableInteractComponent::UOlimMovableInteractComponent()
 {
-
 	PrimaryComponentTick.bCanEverTick = true;
-
 }
 
 void UOlimMovableInteractComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void UOlimMovableInteractComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -25,9 +21,9 @@ void UOlimMovableInteractComponent::TickComponent(float DeltaTime, ELevelTick Ti
 
 	if(ComponentState == EOlimMovableComponentState::EOMCS_Moving)
 	{
-		if(InteractActor)
+		if(MeshComponent)
 		{
-			Interaction(CurrentProperty,InteractActor.Get()->MeshComponent);	
+			Interaction(CurrentProperty,MeshComponent);	
 		}
 	}
 }

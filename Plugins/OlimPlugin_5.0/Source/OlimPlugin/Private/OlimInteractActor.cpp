@@ -21,9 +21,12 @@ AOlimInteractActor::AOlimInteractActor()
 	BillboardComponent =CreateDefaultSubobject<UBillboardComponent>(TEXT("BillboardComponent"));
 	BillboardComponent->SetupAttachment(GetRootComponent());
 	BillboardComponent->SetRelativeScale3D(FVector(0.2f));
-
+	
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
 	MeshComponent->SetupAttachment(GetRootComponent());
+
+	AttachPoint = CreateDefaultSubobject<UBillboardComponent>(TEXT("Attach Point"));
+	AttachPoint->SetupAttachment(MeshComponent);
 
 // Add section
 #if WITH_EDITOR
@@ -43,7 +46,7 @@ void AOlimInteractActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(MovableInteractComponent.Get()) {MovableInteractComponent.Get()->InteractActor = this;}
+	if(MovableInteractComponent.Get()) {MovableInteractComponent.Get()->MeshComponent = MeshComponent;}
 	if(LightInteractComponent.Get()) {LightInteractComponent.Get()->InteractActor = this;}
 }
 
