@@ -11,16 +11,11 @@ UOlimLightInteractComponent::UOlimLightInteractComponent()
 
 }
 
-
-// Called when the game starts
 void UOlimLightInteractComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
-
-// Called every frame
 void UOlimLightInteractComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -31,9 +26,19 @@ void UOlimLightInteractComponent::TickComponent(float DeltaTime, ELevelTick Tick
 	{
 		if(InteractActor)
 		{
-			if(LightComponent || LightActor)
+			// LightActor is valid
+			if(LightActor)
 			{
-				Interaction(CurrentProperty,LightComponent);	
+				ULightComponent* Light = Cast<ULightComponent>(LightActor->GetComponentByClass(ULightComponent::StaticClass()));
+				if(Light)
+				{
+					Interaction(CurrentProperty,Light);
+				}
+			}
+			// LightComponent is valid
+			if(LightComponent)
+			{
+				Interaction(CurrentProperty,LightComponent);					
 			}
 		}
 	}
@@ -44,7 +49,7 @@ void UOlimLightInteractComponent::GetProperty(const FString& name)
 	if(InteractActor)
 	{
 		LightComponent = Cast<ULightComponent>(InteractActor.Get()->GetComponentByClass(ULightComponent::StaticClass()));
-		if(LightComponent)
+		if(LightComponent && LightActor == nullptr)
 		{
 			if(ComponentState == EOlimLightComponentState::EOLCS_Off)
 			{
@@ -59,9 +64,9 @@ void UOlimLightInteractComponent::GetProperty(const FString& name)
 				}
 			}
 		}
-		else if(!LightComponent && LightActor)
+		else
 		{
-			// LightActor Interface Message 전송
+			// LightActor Interface Message 전송 -> bCanTurnOn 체크
 			if(LightActor->GetClass()->ImplementsInterface(UOlimInteractInterface::StaticClass()))
 			{
 				IOlimInteractInterface* Interface = Cast<IOlimInteractInterface>(LightActor);
@@ -90,7 +95,8 @@ void UOlimLightInteractComponent::GetProperty(const FString& name)
 
 void UOlimLightInteractComponent::Interaction(const TOptional<FOlimLightProperty>& property, ULightComponent* lightComp)
 {
-	if(lightComp && LightActor)
+	// Light Component O , LightActor X
+	if(lightComp)
 	{
 		// 밝기 조절
 		{
@@ -104,7 +110,6 @@ void UOlimLightInteractComponent::Interaction(const TOptional<FOlimLightProperty
 
 			lightComp->SetIntensity(newIntensity);
 		}
-		
 		// 색상 조절
 		{
 			const FLinearColor fromColor = property.GetValue().FromColor;
@@ -118,7 +123,7 @@ void UOlimLightInteractComponent::Interaction(const TOptional<FOlimLightProperty
 			lightComp->SetLightColor(newLightColor);
 		}
 	}
-	if(LightActor && lightComp == nullptr)
+	/*else
 	{
 		// 밝기 조절
 		{
@@ -136,7 +141,6 @@ void UOlimLightInteractComponent::Interaction(const TOptional<FOlimLightProperty
 				Light->SetIntensity(newIntensity);
 			}
 		}
-		
 		// 색상 조절
 		{
 			const FLinearColor fromColor = property.GetValue().FromColor;
@@ -153,7 +157,7 @@ void UOlimLightInteractComponent::Interaction(const TOptional<FOlimLightProperty
 				Light->SetLightColor(newLightColor);
 			}
 		}
-	}
+	}*/
 }
 
 void UOlimLightInteractComponent::Interact(const FString& string, EOlimActorType type)
@@ -199,6 +203,12 @@ void UOlimLightInteractComponent::PlayTimeline(UCurveFloat* curve)
 		ComponentState = EOlimLightComponentState::EOLCS_On;
 		
 		InteractTimeline.PlayFromStart();	
+	}
+	// Curve is nullptr ( message and debug sphere )
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Orange,"Light Curve is nullptr");
+		DrawDebugSphere(GetWorld(),GetOwner()->GetActorLocation(),30.f,6,FColor::White,false,5.f,0,1.f);
 	}
 }
 

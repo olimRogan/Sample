@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "OlimInteractActor.generated.h"
 
-UCLASS()
+UCLASS(HideCategories = ("LOD","Misc","Physics","Streaming","Rendering"))
 class OLIMPLUGIN_API AOlimInteractActor : public AActor
 {
 	GENERATED_BODY()
@@ -38,11 +38,11 @@ public:
 	
 private:
 	// Interact Component - Movable
-	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Component", meta = (AllowPrivateAccess ="true"))
+	UPROPERTY(BlueprintReadOnly,EditAnywhere, Category = "Component", meta = (AllowPrivateAccess ="true"))
 	TObjectPtr<class UOlimMovableInteractComponent> MovableInteractComponent = nullptr;
 	
 	// Interact Component - Light
-	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Component", meta = (AllowPrivateAccess ="true"))
+	UPROPERTY(BlueprintReadOnly,EditAnywhere, Category = "Component", meta = (AllowPrivateAccess ="true"))
 	TObjectPtr<class UOlimLightInteractComponent> LightInteractComponent = nullptr;
 	
 	// 마우스 클릭 반응 체크

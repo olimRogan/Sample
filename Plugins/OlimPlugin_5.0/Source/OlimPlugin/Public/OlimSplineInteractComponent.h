@@ -18,7 +18,7 @@ enum class EOlimSplineComponentState : uint8
 };
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),HideCategories = ("Activation","Cooking","Collision","AssetUserData"))
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),HideCategories = ("Cooking","Collision","AssetUserData"))
 class OLIMPLUGIN_API UOlimSplineInteractComponent : public UActorComponent, public IOlimInteractInterface
 {
 	GENERATED_BODY()

@@ -14,15 +14,15 @@ AOlimInteractAttachActor::AOlimInteractAttachActor()
 
 	MovableInteractComponent = CreateDefaultSubobject<UOlimMovableInteractComponent>(TEXT("MovableComponent"));
 	LightInteractComponent = CreateDefaultSubobject<UOlimLightInteractComponent>(TEXT("LightComponent"));
-
-	BillboardComponent = CreateDefaultSubobject<UBillboardComponent>(TEXT("Billboard"));
-	BillboardComponent->SetupAttachment(GetRootComponent());
 	
 	RootScene = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	SetRootComponent(RootScene);
 	
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
 	MeshComponent->SetupAttachment(GetRootComponent());
+
+	BillboardComponent = CreateDefaultSubobject<UBillboardComponent>(TEXT("Billboard"));
+	BillboardComponent->SetupAttachment(GetRootComponent());
 }
 
 void AOlimInteractAttachActor::BeginPlay()
@@ -40,6 +40,7 @@ void AOlimInteractAttachActor::OnConstruction(const FTransform& Transform)
 	if(InteractActor)
 	{
 		AttachToComponent(InteractActor->AttachPoint,FAttachmentTransformRules::KeepWorldTransform);
+		SetActorRelativeTransform(FTransform());
 	}
 	else
 	{

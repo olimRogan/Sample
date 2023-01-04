@@ -51,10 +51,12 @@ void UOlimMovableInteractComponent::Interaction(const TOptional<FOlimMovableProp
 
 	const FOlimTransform toTransform = property.GetValue().ToTransform;
 	const FOlimTransform fromTransform = property.GetValue().FromTransform;
-	
+
+	// Location
 	const FVector aLoc = UKismetMathLibrary::VLerp(fromTransform.Location,toTransform.Location,TimelineAlpha);
 	const FVector bLoc = UKismetMathLibrary::VLerp(toTransform.Location,fromTransform.Location,TimelineAlpha);
 
+	// Rotation
 	const FRotator aRot = UKismetMathLibrary::RLerp(fromTransform.Rotation,toTransform.Rotation,TimelineAlpha,false);
 	const FRotator bRot = UKismetMathLibrary::RLerp(toTransform.Rotation,fromTransform.Rotation,TimelineAlpha,false);
 	
@@ -106,6 +108,12 @@ void UOlimMovableInteractComponent::PlayTimeline(UCurveFloat* curve)
 		
 		ComponentState = EOlimMovableComponentState::EOMCS_Moving;
 		InteractTimeline.PlayFromStart();
+	}
+	// Curve is nullptr ( message and debug sphere )
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1,5.f,FColor::Orange,"Movable Curve is nullptr");
+		DrawDebugSphere(GetWorld(),GetOwner()->GetActorLocation(),25.f,6,FColor::Orange,false,5.f,0,1.f);
 	}
 }
 

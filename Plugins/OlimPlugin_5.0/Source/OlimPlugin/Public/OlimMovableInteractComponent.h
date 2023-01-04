@@ -60,7 +60,7 @@ enum class EOlimMovementState : uint8
 };
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),HideCategories = ("Activation","Cooking","Collision","AssetUserData") )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),HideCategories = ("Activation","Cooking","Collision","AssetUserData"))
 class OLIMPLUGIN_API UOlimMovableInteractComponent : public UActorComponent, public IOlimInteractInterface
 {
 	GENERATED_BODY()
@@ -113,7 +113,7 @@ public:
 	FTimeline InteractTimeline;
 
 	// 타임라인 이벤트 - Curve 사용
-	UFUNCTION(BlueprintCallable, Category = "Timeline")
+	UFUNCTION()
 	void PlayTimeline(UCurveFloat* curve);
 
 	// 타임라인 시간 얻어오기
