@@ -15,7 +15,7 @@ class OLIMPLUGIN_API AOlimInteractActor : public AActor
 public:	
 	AOlimInteractActor();
 
-protected:
+protected: 
 	virtual void BeginPlay() override;
 
 

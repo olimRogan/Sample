@@ -64,7 +64,8 @@ void UOlimLightInteractComponent::GetProperty(const FString& name)
 				}
 			}
 		}
-		else
+		// LightComponent is valid, LightActor is nullptr
+		if(LightComponent == nullptr && LightActor)
 		{
 			// LightActor Interface Message 전송 -> bCanTurnOn 체크
 			if(LightActor->GetClass()->ImplementsInterface(UOlimInteractInterface::StaticClass()))

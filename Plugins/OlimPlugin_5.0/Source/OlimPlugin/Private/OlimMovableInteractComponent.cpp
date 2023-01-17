@@ -78,6 +78,7 @@ void UOlimMovableInteractComponent::InteractBP_Implementation(const FString& str
 	{
 	case EOlimActorType::EAS_Actor:
 		if(ComponentState == EOlimMovableComponentState::EOMCS_Wait)
+			
 		{
 			if(str.Equals("Open")) {MovementState = EOlimMovementState::EOMS_Open;}
 			else if(str.Equals("Close")) {MovementState = EOlimMovementState::EOMS_Close;}	
@@ -125,5 +126,6 @@ void UOlimMovableInteractComponent::TimelineProgress(float value)
 void UOlimMovableInteractComponent::TimelineFinish()
 {
 	ComponentState = EOlimMovableComponentState::EOMCS_Wait;
+	
 }
 
