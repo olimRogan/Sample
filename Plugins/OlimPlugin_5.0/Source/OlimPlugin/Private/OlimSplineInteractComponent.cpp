@@ -17,7 +17,6 @@ UOlimSplineInteractComponent::UOlimSplineInteractComponent() :
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-
 // Called when the game starts
 void UOlimSplineInteractComponent::BeginPlay()
 {
